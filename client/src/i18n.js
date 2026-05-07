@@ -39,6 +39,7 @@ i18n.use(initReactI18next).init({
           "Чем могу помочь?",
           "Что хотите узнать?",
           "Давайте общаться!",
+          "О чём хотите поговорить?"
         ],
       },
     },
@@ -62,7 +63,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  lng: localStorage.getItem("language") || "ru", 
+  lng: localStorage.getItem("language") || "en", 
   fallbackLng: "en",
   interpolation: { escapeValue: false },
 });

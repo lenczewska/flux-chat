@@ -71,7 +71,7 @@ const ChatBox = () => {
   }, [i18n.language]);
 
   return (
-    <div className="flex-1 flex flex-col justify-between m-2 sm:m-4 md:m-8 xl:mx-30 max-md:mt-14 2xl:pr-40 backdrop-blur-sm min-h-[60vh] max-w-full">
+    <div className="flex-1 flex flex-col justify-between m-2 sm:m-4 md:m-8 xl:mx-30 max-md:mt-14 2xl:pr-40  min-h-[60vh] max-w-full">
       {/* Chat Container */}
       <div
         ref={containerRef}
@@ -103,21 +103,20 @@ const ChatBox = () => {
       {/* Input Form */}
       <form
         onSubmit={onSubmit}
-        className="border border-primary dark:border-[#80609F]/50 rounded-full w-full max-w-2xl p-2 sm:p-3 sm:pl-4 mx-auto flex gap-2 sm:gap-4 items-center  dark:bg-gray-300 backdrop-blur-md"
+        className={`border rounded-full w-full max-w-2xl p-2 sm:p-3 sm:pl-4 mx-auto flex gap-2 sm:gap-4 items-center
+    ${theme === "dark" ? "border-[#80609F]/50 bg-[#0f0f12] text-white" : "border-black bg-white text-black"}
+    shadow-sm`}
       >
         <Select mode={mode} setMode={setMode} theme={theme} />
         <input
           type="text"
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder={t("chatbox.placeholder")}
-          className="search-inp flex-1 w-full text-xs text-black sm:text-sm outline-none bg-transparent 
-             placeholder:text-gray-400
-             px-1 sm:px-2"
+          placeholder={placeholder}
+          className="search-inp flex-1 w-full text-xs sm:text-sm outline-none bg-transparent placeholder:text-gray-400 px-1 sm:px-2"
           disabled={loading}
           required
         />
-
         <button
           type="submit"
           disabled={loading || !prompt.trim()}
