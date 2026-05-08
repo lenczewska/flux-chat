@@ -157,7 +157,7 @@ const ChatBox = () => {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder={t("chatbox.placeholder")}
             className="search-inp flex-1 w-full text-xs sm:text-sm outline-none bg-transparent 
-               placeholder:text-gray-800 px-1 sm:px-2"
+               placeholder:text-gray-600 px-1 sm:px-2"
             disabled={loading}
             required
           />
