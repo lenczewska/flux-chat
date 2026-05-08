@@ -1,21 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-const select = ({ mode, setMode, theme }) => {
-  console.log("select theme:", theme);
-
+const Select = ({ mode, setMode, theme }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const { t } = useTranslation();
 
   const options = [
     { value: "text", label: t("select.text"), icon: "✦" },
-    { value: "image", label: t("select.image"), icon: "⬡" },
+    { value: "photo", label: t("select.image"), icon: "⬡" }, // <-- поменял на photo
   ];
 
   const selected = options.find((o) => o.value === mode);
 
-  // Закрываем по клику вне компонента
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
@@ -58,10 +55,10 @@ const select = ({ mode, setMode, theme }) => {
                   setMode(option.value);
                   setOpen(false);
                 }}
-                className="w-10 flex items-center gap-2 px-3 py-2 text-sm text-white!  dark:text-white hover:bg-white/10 transition-colors duration-150"
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:opacity-80 hover:cursor-pointer bg-black text-white transition-colors duration-150"
               >
-                <span className="cursor-pointer">{option.icon}</span>
-                <span className="cursor-pointer">{option.label}</span>
+                <span className="bg-black text-white " >{option.icon}</span>
+                <span className="bg-black text-white " >{option.label}</span>
               </button>
             ))}
         </div>
@@ -70,4 +67,4 @@ const select = ({ mode, setMode, theme }) => {
   );
 };
 
-export default select;
+export default Select;

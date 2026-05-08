@@ -12,7 +12,7 @@ import "moment/locale/ru";
 import "moment/locale/az";
 
 const ChatBox = () => {
-  const { selectedChat, theme, handleThemeToggle } = useAppContext(); // ← добавь handleThemeToggle
+  const { selectedChat, theme } = useAppContext();
   const { t, i18n } = useTranslation();
   const containerRef = useRef(null);
   const [messages, setMessages] = useState([]);
@@ -20,6 +20,8 @@ const ChatBox = () => {
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState("text");
   const [isPublished, setIsPublished] = useState(false);
+  const [file, setFile] = useState(null);
+  const [fileDescription, setFileDescription] = useState("");
 
   useEffect(() => {
     moment.locale(i18n.language);
@@ -39,18 +41,23 @@ const ChatBox = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!prompt.trim()) return;
+    if (mode === "text" && !prompt.trim()) return;
+    if (mode === "photo" && !file) return;
+
     try {
       setLoading(true);
       const newMessage = {
         role: "user",
-        content: prompt,
+        content:
+          mode === "text"
+            ? prompt
+            : `${t("chatbox.attachedFile")}: ${file.name}\n${fileDescription}`,
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, newMessage]);
       setPrompt("");
-      if (mode === "image" && isPublished) {
-      }
+      setFile(null);
+      setFileDescription("");
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -63,15 +70,13 @@ const ChatBox = () => {
     return theme === "dark" ? whiteForDark : darkForWhite;
   };
 
-  const phrases = t("chatbox.phrases", { returnObjects: true });
-
   const placeholder = useMemo(() => {
     const phrases = t("chatbox.phrases", { returnObjects: true });
     return phrases[Math.floor(Math.random() * phrases.length)];
   }, [i18n.language]);
 
   return (
-    <div className="flex-1 flex flex-col justify-between m-2 sm:m-4 md:m-8 xl:mx-30 max-md:mt-14 2xl:pr-40  min-h-[60vh] max-w-full">
+    <div className="flex-1 flex flex-col justify-between m-2 sm:m-4 md:m-8 xl:mx-30 max-md:mt-14 2xl:pr-40 min-h-[60vh] max-w-full">
       {/* Chat Container */}
       <div
         ref={containerRef}
@@ -80,7 +85,9 @@ const ChatBox = () => {
         {messages.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center">
             <p
-              className={`text-xl sm:text-4xl md:text-6xl lg:text-7xl mb-6 text-center ${theme === "dark" ? "text-white" : "text-black"}`}
+              className={`text-xl sm:text-4xl md:text-6xl lg:text-7xl mb-6 text-center ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
             >
               {placeholder}
             </p>
@@ -104,22 +111,65 @@ const ChatBox = () => {
       <form
         onSubmit={onSubmit}
         className={`border rounded-full w-full max-w-2xl p-2 sm:p-3 sm:pl-4 mx-auto flex gap-2 sm:gap-4 items-center
-    ${theme === "dark" ? "border-[#80609F]/50 bg-[#0f0f12] text-white" : "border-black bg-white text-black"}
-    shadow-sm`}
+          ${
+            theme === "dark"
+              ? "border-[#80609F]/50 bg-[#0f0f12] text-white"
+              : "border-black bg-white text-black"
+          }
+          shadow-sm`}
       >
         <Select mode={mode} setMode={setMode} theme={theme} />
-        <input
-          type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder={placeholder}
-          className="search-inp flex-1 w-full text-xs sm:text-sm outline-none bg-transparent placeholder:text-gray-400 px-1 sm:px-2"
-          disabled={loading}
-          required
-        />
+
+        {mode === "photo" ? (
+          <div className="flex items-center gap-2 w-full">
+            {/* Скрытый file input */}
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files[0])}
+              className="hidden"
+              disabled={loading}
+            />
+
+            {/* Кастомная кнопка */}
+            <label
+              htmlFor="file-upload"
+              className={`cursor-pointer px-3 py-1.5 rounded-4xl border hover:opacity-80 text-[13px] text-white
+    ${theme === "dark" ? "bg-[#6D5FB9]" : "bg-black"}`}
+            >
+              {t("chatbox.chooseFile")}
+            </label>
+
+            {/* Поле для описания файла */}
+            <input
+              type="text"
+              value={fileDescription}
+              onChange={(e) => setFileDescription(e.target.value)}
+              className="flex-1 w-full text-xs sm:text-sm outline-none bg-transparent px-1 sm:px-2"
+              disabled={loading}
+            />
+          </div>
+        ) : (
+          <input
+            type="text"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder={t("chatbox.placeholder")}
+            className="search-inp flex-1 w-full text-xs sm:text-sm outline-none bg-transparent 
+               placeholder:text-gray-800 px-1 sm:px-2"
+            disabled={loading}
+            required
+          />
+        )}
+
         <button
           type="submit"
-          disabled={loading || !prompt.trim()}
+          disabled={
+            loading ||
+            (mode === "text" && !prompt.trim()) ||
+            (mode === "photo" && !file)
+          }
           aria-label={loading ? "Остановить генерацию" : "Отправить сообщение"}
           className="disabled:opacity-50 disabled:cursor-not-allowed w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center"
         >

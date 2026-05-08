@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
         "sidebar.yesterday": "Yesterday",
         "select.text": "Text",
         "select.image": "Image",
+        "chatbox.chooseFile": "Choose file",
         "chatbox.placeholder": "Write a message...",
         "chatbox.phrases": [
           "Ask me anything!",
@@ -32,6 +33,7 @@ i18n.use(initReactI18next).init({
         "sidebar.yesterday": "Вчера",
         "select.text": "Текст",
         "select.image": "Фото",
+        "chatbox.chooseFile": "Выберите файл",
         "chatbox.placeholder": "Задайте вопрос...",
         "chatbox.phrases": [
           "Задайте вопрос!",
@@ -39,7 +41,7 @@ i18n.use(initReactI18next).init({
           "Чем могу помочь?",
           "Что хотите узнать?",
           "Давайте общаться!",
-          "О чём хотите поговорить?"
+          "О чём хотите поговорить?",
         ],
       },
     },
@@ -52,6 +54,7 @@ i18n.use(initReactI18next).init({
         "sidebar.yesterday": "Dünən",
         "select.text": "Mətn",
         "select.image": "Şəkil",
+        "chatbox.chooseFile": "Faylı seçin",
         "chatbox.placeholder": "Sualınızı yazın...",
         "chatbox.phrases": [
           "Sual verin!",
@@ -63,7 +66,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  lng: localStorage.getItem("language") || "en", 
+  lng: localStorage.getItem("language") || "en",
   fallbackLng: "en",
   interpolation: { escapeValue: false },
 });
