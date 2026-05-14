@@ -160,13 +160,10 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
-          className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
-          style={
-            {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE
-            }
-          }
-          side={side}>
+          className="bg-sidebar text-sidebar-foreground p-0 [&>button]:hidden shadow-lg h-full"
+          style={{ width: '75vw', maxWidth: 320 }}
+          side={side}
+        >
           <SheetHeader className="sr-only">
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>

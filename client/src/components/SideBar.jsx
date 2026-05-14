@@ -101,7 +101,9 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center justify-between px-4 py-4">
+        <div
+          className={`flex items-center justify-between px-4 py-4 ${!isMenuOpen && "max-md:-translate-x-full"}`}
+        >
           <Link to="/" className="group-data-[collapsible=icon]:hidden">
             <img
               src={theme === "dark" ? logoFluxWhite : logoFluxDark}
@@ -138,7 +140,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <SidebarMenuButton
-                        className="cursor-pointer "
+                        className="cursor-pointer"
                         onClick={() => {
                           navigate("/");
                           setIsMenuOpen(false);
@@ -275,6 +277,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
             checked={theme === "dark"}
             onCheckedChange={handleThemeToggle}
           />
+        
         </div>
       </SidebarFooter>
     </Sidebar>
