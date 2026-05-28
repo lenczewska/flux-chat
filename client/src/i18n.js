@@ -22,6 +22,8 @@ i18n.use(initReactI18next).init({
           "What would you like to know?",
           "Let's talk!",
         ],
+        "search.placeholder": "Search in chats...",
+         "project.placeholder": "Search projects",
       },
     },
 
@@ -45,12 +47,14 @@ i18n.use(initReactI18next).init({
           "Давайте общаться!",
           "О чём хотите поговорить?",
         ],
+        "search.placeholder": "Поиск в чатах...",
+         "project.placeholder": "Поиск проектов",
       },
     },
     az: {
       translation: {
         "sidebar.newChat": "Yeni çat",
-        "sidebar.search": "Çatlarda axtar",
+        "sidebar.search": "Çatlarda axtarın",
         "sidebar.images": "Şəkillər",
         "sidebar.projects": "Proyektləriniz",
         "sidebar.yourChats": "Çatlarınız",
@@ -66,6 +70,8 @@ i18n.use(initReactI18next).init({
           "Nə bilmək istəyirsiniz?",
           "Gəlin danışaq!",
         ],
+        "search.placeholder": "Çatlarda axtarın...",
+        "project.placeholder": "Proyektləri axtarin",
       },
     },
   },
