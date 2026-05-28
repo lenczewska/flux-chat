@@ -3,8 +3,8 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import Sidebar from "./components/SideBar";
 import ChatBox from "./components/ChatBox";
-import Credits from "./pages/Credits";
 import Community from "./pages/Community";
+import Projects from "./pages/Projects"
 import { useAppContext } from "@/context/AppContext";
 import "./assets/prism.css";
 import Loading from "./pages/Loading";
@@ -27,6 +27,8 @@ function App() {
               <Route path="/" element={<ChatBox />} />
               <Route path="/login" element={<Login />} />
               <Route path="/community" element={<Community />} />
+              <Route path="/projects" element={<Projects />} />
+
             </Routes>
           </div>
         </SidebarInset>

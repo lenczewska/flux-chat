@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Credits = () => {
+const Projects = () => {
   return (
     <div>
-      Credits
+      
     </div>
   )
 }
 
-export default Credits
+export default Projects

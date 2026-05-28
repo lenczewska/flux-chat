@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Image, PanelLeft, Search } from "lucide-react";
 import Plus from "./ui/plus";
+import { FaRegFolderOpen } from "react-icons/fa6";
 import {
   Sidebar,
   SidebarContent,
@@ -207,6 +208,21 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
                   <span>{t("sidebar.images")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* projects */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  className="cursor-pointer"
+                  onClick={() => {
+                    navigate("/projects");
+                    setIsMenuOpen(false);
+                  }}
+                  isActive={location.pathname === "/projects"}
+                >
+                  <FaRegFolderOpen />
+                  <span>{t("sidebar.projects")}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -277,7 +293,6 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
             checked={theme === "dark"}
             onCheckedChange={handleThemeToggle}
           />
-        
         </div>
       </SidebarFooter>
     </Sidebar>
