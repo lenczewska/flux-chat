@@ -1,11 +1,11 @@
 import React from "react";
 
-const Button = () => {
+const Plus = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="40px"
-      height="40px"
+      width="30px"
+      height="30px"
       viewBox="0 0 24 24"
       stroke="currentColor"
       className="fill-none hover:rotate-90 duration-300 transition-transform"
@@ -20,4 +20,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default Plus;
