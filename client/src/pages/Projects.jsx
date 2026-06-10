@@ -6,9 +6,15 @@ import "moment/locale/ru";
 import "moment/locale/az";
 import ProjectFolder from "../components/ProjectFolders";
 import Plus from "../components/ui/plus";
+import NewProjectModal from "../components/NewProjectModal";
+import { useState } from "react";
 
 const Projects = () => {
   const { t, i18n } = useTranslation();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const handleSearchModal = (value) => {
+    console.log(value);
+  };
 
   return (
     <div className="form">
@@ -18,10 +24,19 @@ const Projects = () => {
         onChange={(e) => onSearch(e.target.value)}
       />
 
-      <div className="flex items-center gap-3 pt-10 cursor-pointer ">
+      <div
+        className="flex items-center gap-3 pt-10 cursor-pointer"
+        onClick={() => setIsSearchOpen(true)}
+      >
         <Plus className="cursor-pointer" />
         <h2 className="text-3xl">Add new</h2>
       </div>
+
+      <NewProjectModal
+        open={isSearchOpen}
+        onOpenChange={setIsSearchOpen}
+        onSearch={handleSearchModal}
+      />
 
       <h2 className="pt-10 pl-0.5 text-3xl">All projects</h2>
       <ProjectFolder />
