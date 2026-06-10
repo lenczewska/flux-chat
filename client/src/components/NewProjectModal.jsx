@@ -17,18 +17,22 @@ const NewProjectModal = ({ open, onOpenChange, onSearch }) => {
           <h2 className="text-2xl">Add new project</h2>
           <form action="newProject">
             <div className="mt-2">
-              {" "}
-              <label for="projectName" className="mb-2">
-                Project name
-              </label>
+              <p className="mb-2" > Project name</p>
+
               <Input />
             </div>
 
-            <div className="mt-3">
-              <label for="projectName">Describe your project</label>
+            <div className="mt-3  ">
+              <p className="mb-2"> Describe your project</p>
               <Input />
             </div>
           </form>
+
+          <div className="btns flex justify-end mt-5">
+            <button className="crtBtn bg-gray-200 p-1.5 cursor-pointer rounded-lg text-black  ">
+              Add project
+            </button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

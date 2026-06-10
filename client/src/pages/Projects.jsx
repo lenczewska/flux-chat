@@ -25,11 +25,11 @@ const Projects = () => {
       />
 
       <div
-        className="flex items-center gap-3 pt-10 cursor-pointer"
+        className="flex items-center gap-1 w-40 pl-2 rounded-[7px] mt-10 cursor-pointer bg-gray-100 "
         onClick={() => setIsSearchOpen(true)}
       >
         <Plus className="cursor-pointer" />
-        <h2 className="text-3xl">Add new</h2>
+        <h2 className="text-2xl p-1 text-black">Add new</h2>
       </div>
 
       <NewProjectModal
@@ -38,7 +38,7 @@ const Projects = () => {
         onSearch={handleSearchModal}
       />
 
-      <h2 className="pt-10 pl-0.5 text-3xl">All projects</h2>
+      <h2 className="pt-10 pl-0.5 text-2xl">All projects</h2>
       <ProjectFolder />
     </div>
   );
