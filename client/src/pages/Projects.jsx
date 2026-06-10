@@ -1,45 +1,64 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
-import moment from "moment";
-import "moment/locale/ru";
-import "moment/locale/az";
 import ProjectFolder from "../components/ProjectFolders";
 import Plus from "../components/ui/plus";
 import NewProjectModal from "../components/NewProjectModal";
-import { useState } from "react";
+import { useAppContext } from "@/context/AppContext";
 
 const Projects = () => {
-  const { t, i18n } = useTranslation();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const handleSearchModal = (value) => {
-    console.log(value);
-  };
+  const { t } = useTranslation();
+  const { theme } = useAppContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    console.log("Projects mounted");
+    const handleKeyDown = (e) => {
+      console.log("key pressed:", e.key);
+      if (e.key === "Enter") setIsModalOpen(true);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div className="form">
-      <Input
-        autoFocus
-        placeholder={t("project.placeholder")}
-        onChange={(e) => onSearch(e.target.value)}
-      />
+      {console.log("Projects rendered")}
 
+      <Input
+        ref={inputRef}
+        placeholder={t("project.placeholder")}
+        onKeyDown={(e) => {
+          console.log("key:", e.key);
+          if (e.key === "Enter") setIsModalOpen(true);
+        }}
+      />
       <div
-        className="flex items-center gap-1 w-40 pl-2 rounded-[7px] mt-10 cursor-pointer bg-gray-100 "
-        onClick={() => setIsSearchOpen(true)}
+        className="inline-flex items-center gap-1 pl-2 pr-2 rounded-[7px] mt-10 cursor-pointer"
+        style={{
+          backgroundColor: theme === "dark" ? "transparent" : "#f3f4f6",
+          border: theme === "dark" ? "1px solid #4b5563" : "none",
+        }}
+        onClick={() => setIsModalOpen(true)}
       >
         <Plus className="cursor-pointer" />
-        <h2 className="text-2xl p-1 text-black">Add new</h2>
+        <h2
+          className="text-lg p-1"
+          style={{ color: theme === "dark" ? "white" : "black" }}
+        >
+          {t("projects.new")}
+        </h2>
       </div>
 
       <NewProjectModal
-        open={isSearchOpen}
-        onOpenChange={setIsSearchOpen}
-        onSearch={handleSearchModal}
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onAdd={(project) => setProjects((prev) => [...prev, project])}
       />
 
-      <h2 className="pt-10 pl-0.5 text-2xl">All projects</h2>
-      <ProjectFolder />
+      <ProjectFolder projects={projects} />
     </div>
   );
 };

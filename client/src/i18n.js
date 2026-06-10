@@ -5,6 +5,12 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       translation: {
+        "projects.new": "Add new project ",
+        "projects.all": "All projects",
+        "modal.newProject": "Add new project",
+        "modal.projectName": "Project Name",
+        "modal.describeProject": "Describe your project",
+        "modal.button": "Add project",
         "sidebar.newChat": "New Chat",
         "sidebar.search": "Search chats",
         "sidebar.images": "Images",
@@ -23,12 +29,18 @@ i18n.use(initReactI18next).init({
           "Let's talk!",
         ],
         "search.placeholder": "Search in chats...",
-         "project.placeholder": "Search projects",
+        "project.placeholder": "Search projects",
       },
     },
 
     ru: {
       translation: {
+        "projects.new": "Добавьте новый проект",
+        "projects.all": "Все проекты",
+        "modal.newProject": "Добавьте новый проект",
+        "modal.projectName": "Название проекта",
+        "modal.describeProject": "Опишите проект",
+        "modal.button": "Добавить проект",
         "sidebar.newChat": "Новый чат",
         "sidebar.search": "Поиск в чатах",
         "sidebar.images": "Изображения",
@@ -48,11 +60,17 @@ i18n.use(initReactI18next).init({
           "О чём хотите поговорить?",
         ],
         "search.placeholder": "Поиск в чатах...",
-         "project.placeholder": "Поиск проектов",
+        "project.placeholder": "Поиск проектов",
       },
     },
     az: {
       translation: {
+        "projects.new": "Yeni proyekt elavə edin",
+        "projects.all": "Bütün proyektlər",
+        "modal.newProject": "Yeni proyekt elave edin",
+        "modal.projectName": "Proyektin adı",
+        "modal.describeProject": "Proyektinizi təsvir edin",
+        "modal.button": "Proyekti elave etmek",
         "sidebar.newChat": "Yeni çat",
         "sidebar.search": "Çatlarda axtarın",
         "sidebar.images": "Şəkillər",

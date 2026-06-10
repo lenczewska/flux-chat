@@ -163,6 +163,22 @@ const ChatBox = () => {
           />
         )}
 
+        <select name="models" id="">
+          <optgroup>
+            
+            <option value="">
+            1
+          </option>
+           <option value="">
+            2
+          </option>
+           <option value="">
+            3
+          </option>
+          </optgroup>
+          
+        </select>
+
         <button
           type="submit"
           disabled={

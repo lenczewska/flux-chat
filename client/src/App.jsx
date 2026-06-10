@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import Sidebar from "./components/SideBar";
 import ChatBox from "./components/ChatBox";
 import Community from "./pages/Community";
-import Projects from "./pages/Projects"
+import Projects from "./pages/Projects";
 import { useAppContext } from "@/context/AppContext";
 import "./assets/prism.css";
 import Loading from "./pages/Loading";
@@ -17,7 +17,7 @@ function App() {
   if (pathname === "/loading") return <Loading />;
 
   return (
-    <div className={theme === "dark" ? "dark" : ""}>
+    <div >
       <SidebarProvider defaultOpen={true}>
         <Sidebar />
         <SidebarInset>
@@ -28,7 +28,6 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/community" element={<Community />} />
               <Route path="/projects" element={<Projects />} />
-
             </Routes>
           </div>
         </SidebarInset>
