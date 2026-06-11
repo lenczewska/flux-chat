@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import ProjectFolder from "../components/ProjectFolders";
 import Plus from "../components/ui/plus";
 import NewProjectModal from "../components/NewProjectModal";
@@ -9,29 +10,47 @@ import { useAppContext } from "@/context/AppContext";
 const Projects = () => {
   const { t } = useTranslation();
   const { theme } = useAppContext();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
-  const inputRef = useRef(null);
 
   useEffect(() => {
-    console.log("Projects mounted");
+    const stored = localStorage.getItem("fluxProjects");
+    if (stored) {
+      try {
+        setProjects(JSON.parse(stored));
+      } catch (error) {
+        console.error("Failed to parse stored projects:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("fluxProjects", JSON.stringify(projects));
+  }, [projects]);
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
-      console.log("key pressed:", e.key);
       if (e.key === "Enter") setIsModalOpen(true);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const handleAddProject = (project) => {
+    setProjects((prev) => [...prev, project]);
+    navigate("/newProjectChat");
+  };
+
+  const handleDeleteProject = (projectId) => {
+    setProjects((prev) => prev.filter((project) => project.id !== projectId));
+  };
+
   return (
     <div className="form">
-      {console.log("Projects rendered")}
-
       <Input
-        ref={inputRef}
         placeholder={t("project.placeholder")}
         onKeyDown={(e) => {
-          console.log("key:", e.key);
           if (e.key === "Enter") setIsModalOpen(true);
         }}
       />
@@ -55,10 +74,10 @@ const Projects = () => {
       <NewProjectModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
-        onAdd={(project) => setProjects((prev) => [...prev, project])}
+        onAdd={handleAddProject}
       />
 
-      <ProjectFolder projects={projects} />
+      <ProjectFolder projects={projects} onDelete={handleDeleteProject} />
     </div>
   );
 };

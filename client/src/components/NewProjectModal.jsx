@@ -14,22 +14,27 @@ const NewProjectModal = ({ open, onOpenChange, onAdd }) => {
 
  const handleAdd = () => {
   if (!name.trim()) return;
-  onAdd({ 
-    name, 
-    description, 
-    id: Date.now(), 
-    createdAt: new Date().toLocaleDateString() 
+  onAdd({
+    name,
+    description,
+    id: Date.now(),
+    createdAt: new Date().toLocaleDateString(),
   });
   setName("");
   setDescription("");
   onOpenChange(false);
 };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAdd();
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogOverlay className="bg-black/50 backdrop-blur-sm" />
       <DialogContent className="max-w-[95vw] sm:max-w-125">
-        <div className="modalContent">
+        <form className="modalContent" onSubmit={handleSubmit}>
           <h2 className="text-xl">{t("modal.newProject")}</h2>
 
           <div className="mt-2">
@@ -44,13 +49,13 @@ const NewProjectModal = ({ open, onOpenChange, onAdd }) => {
 
           <div className="btns flex justify-end mt-5">
             <button
+              type="submit"
               className="crtBtn bg-gray-200 p-1.5 cursor-pointer rounded-lg text-black"
-              onClick={handleAdd}
             >
               {t("modal.button")}
             </button>
           </div>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

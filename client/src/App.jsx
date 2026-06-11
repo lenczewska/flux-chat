@@ -5,6 +5,7 @@ import Sidebar from "./components/SideBar";
 import ChatBox from "./components/ChatBox";
 import Community from "./pages/Community";
 import Projects from "./pages/Projects";
+import NewProjectChat from "./pages/NewProjectChat";
 import { useAppContext } from "@/context/AppContext";
 import "./assets/prism.css";
 import Loading from "./pages/Loading";
@@ -28,6 +29,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/community" element={<Community />} />
               <Route path="/projects" element={<Projects />} />
+              <Route path="/newProjectChat" element={<NewProjectChat />} />
             </Routes>
           </div>
         </SidebarInset>
