@@ -47,7 +47,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="form">
+    <div className="form p-14 ">
       <Input
         placeholder={t("project.placeholder")}
         onKeyDown={(e) => {
