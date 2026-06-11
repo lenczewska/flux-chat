@@ -6,6 +6,7 @@ import ProjectFolder from "../components/ProjectFolders";
 import Plus from "../components/ui/plus";
 import NewProjectModal from "../components/NewProjectModal";
 import { useAppContext } from "@/context/AppContext";
+import { CiSearch } from "react-icons/ci";
 
 const Projects = () => {
   const { t } = useTranslation();
@@ -47,18 +48,33 @@ const Projects = () => {
   };
 
   return (
-    <div className="form p-14 ">
-      <Input
-        placeholder={t("project.placeholder")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") setIsModalOpen(true);
-        }}
-      />
+    <div className="form pl-18 pr-18 pt-10">
+      <div style={{ position: "relative" }}>
+        <Input
+          style={{ border: "1px solid #4A3A6B", color: "white", paddingRight: "36px" }}
+          placeholder={t("project.placeholder")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") setIsModalOpen(true);
+          }}
+        />
+        <CiSearch
+          size={18}
+          style={{
+            position: "absolute",
+            right: "10px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: "white",
+            pointerEvents: "none",
+          }}
+        />
+      </div>
+
       <div
         className="inline-flex items-center gap-1 pl-2 pr-2 rounded-[7px] mt-10 cursor-pointer"
         style={{
           backgroundColor: theme === "dark" ? "transparent" : "#f3f4f6",
-          border: theme === "dark" ? "1px solid #4b5563" : "none",
+          border: theme === "dark" ? "1px solid #4A3A6B" : "none",
         }}
         onClick={() => setIsModalOpen(true)}
       >

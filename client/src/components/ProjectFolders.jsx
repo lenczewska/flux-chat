@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiDotsVertical } from "react-icons/hi";
 
+
 const ProjectFolders = ({ projects = [], onDelete }) => {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState(null);
@@ -11,7 +12,7 @@ const ProjectFolders = ({ projects = [], onDelete }) => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       const clickedButton = Object.values(buttonRefs.current).some(
-        (btn) => btn && btn.contains(e.target)
+        (btn) => btn && btn.contains(e.target),
       );
       if (
         menuRef.current &&
@@ -30,7 +31,8 @@ const ProjectFolders = ({ projects = [], onDelete }) => {
       {projects.map((project) => (
         <div
           key={project.id}
-          className="group relative border border-[#c7c7c75f] w-60 h-30 rounded-2xl shadow-xl transition-all p-4 flex flex-col justify-between cursor-pointer"
+          className="group relative border border-[#4A3A6B] w-[271px] h-30 rounded-2xl shadow-xl transition-all p-4 flex flex-col justify-between cursor-pointer"
+          style={{ boxShadow: "0 4px 24px 0 rgba(74, 58, 107, 0.45)" }}
           onClick={() => navigate("/newProjectChat")}
         >
           <div>
@@ -44,7 +46,7 @@ const ProjectFolders = ({ projects = [], onDelete }) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   setActiveMenu((prev) =>
-                    prev === project.id ? null : project.id
+                    prev === project.id ? null : project.id,
                   );
                 }}
                 aria-label="Toggle menu"

@@ -29,7 +29,7 @@ const Select = ({ mode, setMode, theme }) => {
         type="button"
         onClick={() => setOpen(!open)}
         style={{
-          backgroundColor: theme === "dark" ? "#6D5FB9" : "#000000",
+          backgroundColor: theme === "dark" ? "#4A3A6B" : "#000000",
           color: "white",
         }}
         className="flex items-center cursor-pointer gap-1.5 text-sm font-medium px-3 py-1.5 rounded-full transition-all duration-200 hover:opacity-80"
