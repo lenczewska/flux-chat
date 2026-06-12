@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Image, PanelLeft, Search } from "lucide-react";
 import Plus from "./ui/plus";
-import { FaRegFolderOpen } from "react-icons/fa6";
+import { FaRegFolderOpen, FaRegStar, FaStar, FaPen } from "react-icons/fa6";
+import { MdAttachFile, MdOutlineDeleteOutline } from "react-icons/md";
 import {
   Sidebar,
   SidebarContent,
@@ -37,12 +38,13 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import "moment/locale/ru";
 import "moment/locale/az";
-import { MdAttachFile } from "react-icons/md";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
   const { t, i18n } = useTranslation();
   const { chats, theme, setTheme, user, setSelectedChat, projects } =
     useAppContext();
+  const [activeMenu, setActiveMenu] = useState(null);
   const [search] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -50,13 +52,13 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [hoveredChatId, setHoveredChatId] = useState(null);
 
-  useEffect(() => {
-    moment.locale(i18n.language);
-  }, [i18n.language]);
-
   const handleSearchModal = (value) => {
     console.log(value);
   };
+
+  useEffect(() => {
+    moment.locale(i18n.language);
+  }, [i18n.language]);
 
   useHotKeys([
     {
@@ -218,7 +220,6 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
-              {/* projects */}
               <SidebarMenuItem>
                 <SidebarMenuButton
                   className="cursor-pointer"
@@ -235,25 +236,116 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Starred projects */}
         <div
-          className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
+          className={`ml-4 mr-4 text-sm  text-gray-500 border-t pt-3 ${
             sidebarState === "collapsed" ? "hidden" : ""
           }`}
         >
           <span className="text-[#aaa]">{t("sidebar.starred")}</span>
-          <ul className="mt-2 flex flex-col gap-2 ">
-            {starredProjects.map((p) => (
-              <li key={p.id} className="truncate flex gap-1 items-center ">
-                <MdAttachFile />
+          <ul className="mt-2 flex flex-col gap-2">
+            {starredProjects.map((p) => {
+              const projectId = p._id || p.id;
+              return (
+                <li
+                  key={projectId}
+                  className="relative flex gap-1 items-center justify-between cursor-pointer"
+                  onClick={() => navigate("/newProjectChat")} // навигация при клике на li
+                >
+                  {/* Название файла */}
+                  <div className=" flex items-center  justify-between gap-1 truncate">
+                    <MdAttachFile />
+                    <span className="truncate">{p.name}</span>
 
-                {p.name}
-              </li>
-            ))}
+                    {/* Кнопка меню */}
+                    <button
+                      type="button"
+                      className="ml-1 p-1 rounded  
+                           hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shrink-0"
+                      onClick={(e) => {
+                        e.stopPropagation(); // предотвращаем навигацию
+                        setActiveMenu(
+                          activeMenu === projectId ? null : projectId,
+                        );
+                      }}
+                    >
+                      <HiOutlineDotsHorizontal className="w-5 h-5 text-xl cursor-pointer" />
+                    </button>
+                  </div>
+
+                  {/* Дропдаун меню */}
+                  {activeMenu === projectId && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setActiveMenu(null)}
+                      />
+                      <div
+                        className={`absolute right-0 top-8 mt-1 w-32 rounded-lg border shadow-lg z-20 ${
+                          theme === "dark"
+                            ? "border-gray-800 bg-black"
+                            : "border-gray-200 bg-white"
+                        }`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* Star */}
+                        <button
+                          type="button"
+                          className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm border-b rounded-t-lg cursor-pointer transition-colors duration-150"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveMenu(null);
+                            // onToggleStar?.(projectId);
+                          }}
+                        >
+                          {p.starred ? (
+                            <FaStar className="text-[#8e6ad4]" />
+                          ) : (
+                            <FaRegStar className="text-gray-400" />
+                          )}
+                          Star
+                        </button>
+
+                        {/* Edit */}
+                        <button
+                          type="button"
+                          className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm border-b cursor-pointer transition-colors duration-150"
+                          onClick={() => {
+                            setActiveMenu(null);
+                            // onEdit?.(projectId);
+                          }}
+                        >
+                          <FaPen />
+                          Edit
+                        </button>
+
+                        {/* Delete */}
+                        <button
+                          type="button"
+                          className="w-full flex items-center gap-2 px-4 py-2 text-left text-sm rounded-b-lg cursor-pointer transition-colors duration-150"
+                          onClick={() => {
+                            setActiveMenu(null);
+                            // onDelete?.(projectId);
+                          }}
+                        >
+                          <MdOutlineDeleteOutline />
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
+        {/* Your chats */}
         <div
-          className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${state === "collapsed" ? "hidden" : ""}`}
+          className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
+            state === "collapsed" ? "hidden" : ""
+          }`}
         >
           <span className="text-[#aaa]">{t("sidebar.yourChats")}</span>
         </div>
