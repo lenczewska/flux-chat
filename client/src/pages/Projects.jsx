@@ -9,28 +9,12 @@ import NewProjectModal from "../components/NewProjectModal";
 import { useAppContext } from "@/context/AppContext";
 import { CiSearch } from "react-icons/ci";
 
-const Projects = ({ sidebarState }) => {
+const Projects = ({}) => {
   const { t } = useTranslation();
-  const { theme } = useAppContext();
+  const { theme, projects, setProjects } = useAppContext();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("fluxProjects");
-    if (stored) {
-      try {
-        setProjects(JSON.parse(stored));
-      } catch (error) {
-        console.error("Failed to parse stored projects:", error);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("fluxProjects", JSON.stringify(projects));
-  }, [projects]);
 
   const handleAddProject = (project) => {
     setProjects((prev) => [...prev, { ...project, starred: false }]);
@@ -43,16 +27,14 @@ const Projects = ({ sidebarState }) => {
 
   const toggleStar = (projectId) => {
     setProjects((prev) =>
-      prev.map((p) =>
-        p.id === projectId ? { ...p, starred: !p.starred } : p
-      )
+      prev.map((p) => (p.id === projectId ? { ...p, starred: !p.starred } : p)),
     );
   };
 
   const filteredProjects = projects.filter(
     (project) =>
       project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      project.description?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const starredProjects = projects.filter((p) => p.starred);
@@ -64,7 +46,11 @@ const Projects = ({ sidebarState }) => {
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ border: "1px solid #4A3A6B", color: "white", paddingRight: "36px" }}
+          style={{
+            border: "1px solid #4A3A6B",
+            color: "white",
+            paddingRight: "36px",
+          }}
           placeholder={t("project.placeholder")}
         />
         <CiSearch
@@ -104,28 +90,13 @@ const Projects = ({ sidebarState }) => {
         onAdd={handleAddProject}
       />
 
-      {/* Список проектов */}
       <ProjectFolders
         projects={filteredProjects}
         onDelete={handleDeleteProject}
         onToggleStar={toggleStar}
       />
 
-      {/* Блок Starred */}
-      <div
-        className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
-          sidebarState === "collapsed" ? "hidden" : ""
-        }`}
-      >
-        <span>{t("sidebar.starred")}</span>
-        <ul className="mt-2">
-          {starredProjects.map((p) => (
-            <li key={p.id} className="truncate">
-              {p.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+     
     </div>
   );
 };

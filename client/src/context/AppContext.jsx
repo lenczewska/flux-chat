@@ -10,7 +10,23 @@ export const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    const storedProjects = localStorage.getItem("fluxProjects");
+    if (storedProjects) {
+      try {
+        setProjects(JSON.parse(storedProjects));
+      } catch (error) {
+        console.error("Failed to parse stored projects:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("fluxProjects", JSON.stringify(projects));
+  }, [projects]);
 
   const fetchUser = async () => {
     setUser();
@@ -50,6 +66,8 @@ export const AppContextProvider = ({ children }) => {
     setChats,
     selectedChat,
     setSelectedChat,
+    projects,
+    setProjects,
     theme,
     setTheme,
   };

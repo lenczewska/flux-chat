@@ -38,9 +38,9 @@ import moment from "moment";
 import "moment/locale/ru";
 import "moment/locale/az";
 
-const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
+const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
   const { t, i18n } = useTranslation();
-  const { chats, theme, setTheme, user, setSelectedChat } = useAppContext();
+  const { chats, theme, setTheme, user, setSelectedChat, projects } = useAppContext();
   const [search] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,6 +73,8 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
     navigate("/");
     setIsMenuOpen(false);
   };
+
+  const starredProjects = projects.filter((p) => p.starred);
 
   const handleDeleteChat = (e, chatId) => {
     e.stopPropagation();
@@ -226,21 +228,18 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
         <div
           className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
-            state === "collapsed" ? "hidden" : ""
+            sidebarState === "collapsed" ? "hidden" : ""
           }`}
         >
           <span>{t("sidebar.starred")}</span>
           <ul className="mt-2">
-            {projects
-              .filter((p) => p.starred)
-              .map((p) => (
-                <li key={p.id} className="truncate">
-                  {p.name}
-                </li>
-              ))}
+            {starredProjects.map((p) => (
+              <li key={p.id} className="truncate">
+                {p.name}
+              </li>
+            ))}
           </ul>
         </div>
 
