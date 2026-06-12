@@ -14,6 +14,7 @@ const Projects = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // состояние для поиска
 
   useEffect(() => {
     const stored = localStorage.getItem("fluxProjects");
@@ -30,14 +31,6 @@ const Projects = () => {
     localStorage.setItem("fluxProjects", JSON.stringify(projects));
   }, [projects]);
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Enter") setIsModalOpen(true);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
   const handleAddProject = (project) => {
     setProjects((prev) => [...prev, project]);
     navigate("/newProjectChat");
@@ -47,15 +40,21 @@ const Projects = () => {
     setProjects((prev) => prev.filter((project) => project.id !== projectId));
   };
 
+  // фильтрация проектов по имени или описанию
+  const filteredProjects = projects.filter(
+    (project) =>
+      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="form pl-18 pr-18 pt-10">
       <div style={{ position: "relative" }}>
         <Input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           style={{ border: "1px solid #4A3A6B", color: "white", paddingRight: "36px" }}
           placeholder={t("project.placeholder")}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") setIsModalOpen(true);
-          }}
         />
         <CiSearch
           size={18}
@@ -64,7 +63,7 @@ const Projects = () => {
             right: "10px",
             top: "50%",
             transform: "translateY(-50%)",
-            color: "white",
+            color: "#7B60B1",
             pointerEvents: "none",
           }}
         />
@@ -93,7 +92,8 @@ const Projects = () => {
         onAdd={handleAddProject}
       />
 
-      <ProjectFolder projects={projects} onDelete={handleDeleteProject} />
+      {/* передаём отфильтрованные проекты */}
+      <ProjectFolder projects={filteredProjects} onDelete={handleDeleteProject} />
     </div>
   );
 };

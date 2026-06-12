@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiDotsVertical } from "react-icons/hi";
+import { useAppContext } from "../context/AppContext";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { FaPen } from "react-icons/fa";
 
-
-const ProjectFolders = ({ projects = [], onDelete }) => {
+const ProjectFolders = ({ projects = [], onDelete, onToggleStar, onEdit }) => {
+  const { theme } = useAppContext();
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState(null);
   const menuRef = useRef(null);
@@ -31,8 +35,8 @@ const ProjectFolders = ({ projects = [], onDelete }) => {
       {projects.map((project) => (
         <div
           key={project.id}
-          className="group relative border border-[#4A3A6B] w-[271px] h-30 rounded-2xl shadow-xl transition-all p-4 flex flex-col justify-between cursor-pointer"
-          style={{ boxShadow: "0 4px 24px 0 rgba(74, 58, 107, 0.45)" }}
+          className="group relative border border-[#4A3A6B] w-[271px] h-30 rounded-2xl shadow-lg transition-all p-4 flex flex-col justify-between cursor-pointer"
+          style={{ boxShadow: "0 2px 10px 0 rgba(74, 58, 107, 0.45)" }}
           onClick={() => navigate("/newProjectChat")}
         >
           <div>
@@ -63,26 +67,65 @@ const ProjectFolders = ({ projects = [], onDelete }) => {
           {activeMenu === project.id && (
             <div
               ref={menuRef}
-              className="absolute right-0 top-15 left-30 mt-2 w-30 rounded-xl border bg-white shadow-lg dark:bg-[#1e1e1e] dark:border-gray-700 z-20"
+              className={`absolute right-0 top-10 left-45 mt-2 w-30 rounded-lg border shadow-lg z-20 ${
+                theme === "dark"
+                  ? "border-gray-800 bg-black"
+                  : "border-gray-200 bg-white"
+              }`}
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Star toggle */}
               <button
                 type="button"
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:rounded-t-xl cursor-pointer"
+                className={`w-full flex items-center gap-1 px-4 py-2 text-left text-sm border-b rounded-t-lg cursor-pointer transition-colors duration-150 ${
+                  theme === "dark"
+                    ? "border-gray-800 bg-black text-white hover:bg-gray-950"
+                    : "border-gray-200 bg-white text-black hover:bg-gray-100"
+                }`}
                 onClick={() => {
                   setActiveMenu(null);
+                  onToggleStar?.(project.id);
                 }}
               >
-                Option 1
+                {project.starred ? (
+                  <FaStar className="w-5 text-yellow-400" />
+                ) : (
+                  <FaRegStar className="w-5 text-gray-400" />
+                )}
+                Star
               </button>
+
+              {/* Edit */}
               <button
                 type="button"
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:rounded-b-xl cursor-pointer"
+                className={`w-full flex gap-2 items-center px-4 py-2 text-left text-sm border-b cursor-pointer transition-colors duration-150 ${
+                  theme === "dark"
+                    ? "border-gray-800 bg-black text-white hover:bg-gray-950"
+                    : "border-gray-200 bg-white text-black hover:bg-gray-100"
+                }`}
+                onClick={() => {
+                  setActiveMenu(null);
+                  onEdit?.(project.id);
+                }}
+              >
+                <FaPen />
+                Edit
+              </button>
+
+              {/* Delete */}
+              <button
+                type="button"
+                className={`w-full flex items-center gap-1 px-4 py-2 text-left text-sm rounded-b-lg cursor-pointer transition-colors duration-150 ${
+                  theme === "dark"
+                    ? "border-gray-800 bg-black text-white hover:bg-gray-950"
+                    : "border-gray-200 bg-white text-black hover:bg-gray-100"
+                }`}
                 onClick={() => {
                   setActiveMenu(null);
                   onDelete?.(project.id);
                 }}
               >
+                <MdOutlineDeleteOutline />
                 Delete
               </button>
             </div>

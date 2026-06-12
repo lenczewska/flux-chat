@@ -166,7 +166,7 @@ const ChatBox = () => {
         <select name="models" id="">
           <optgroup>
             Model
-            <option value="">Model</option>
+            <option value="">cd clienModel</option>
             <option value="">2</option>
             <option value="">3</option>
           </optgroup>
