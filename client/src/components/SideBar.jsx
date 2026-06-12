@@ -241,10 +241,11 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
           }`}
         >
           <span className="text-[#aaa]">{t("sidebar.starred")}</span>
-          <ul className="mt-2 flex items-center gap-1 ">
-            <MdAttachFile />
+          <ul className="mt-2 flex flex-col gap-2 ">
             {starredProjects.map((p) => (
-              <li key={p.id} className="truncate ">
+              <li key={p.id} className="truncate flex gap-1 items-center ">
+                <MdAttachFile />
+
                 {p.name}
               </li>
             ))}

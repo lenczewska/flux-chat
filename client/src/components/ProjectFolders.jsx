@@ -55,7 +55,7 @@ const ProjectFolders = ({ projects = [], onDelete, onToggleStar, onEdit }) => {
                 }}
                 aria-label="Toggle menu"
               >
-                <HiDotsVertical className="w-5 h-5 cursor-pointer " />
+                <HiDotsVertical className="w-5 h-6 rounded-[3px] bg-[#35294C] cursor-pointer " />
               </button>
             </div>
 

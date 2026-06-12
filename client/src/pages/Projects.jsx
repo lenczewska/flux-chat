@@ -41,7 +41,6 @@ const Projects = ({}) => {
 
   return (
     <div className="form pl-18 pr-18 pt-10">
-      {/* Поиск */}
       <div style={{ position: "relative" }}>
         <Input
           value={searchQuery}
