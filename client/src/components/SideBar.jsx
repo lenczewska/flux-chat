@@ -37,10 +37,12 @@ import { useTranslation } from "react-i18next";
 import moment from "moment";
 import "moment/locale/ru";
 import "moment/locale/az";
+import { MdAttachFile } from "react-icons/md";
 
-const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
+const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState }) => {
   const { t, i18n } = useTranslation();
-  const { chats, theme, setTheme, user, setSelectedChat, projects } = useAppContext();
+  const { chats, theme, setTheme, user, setSelectedChat, projects } =
+    useAppContext();
   const [search] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -150,7 +152,9 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
                         }}
                       >
                         <Plus />
-                        <span>{t("sidebar.newChat")}</span>
+                        <span className="text-[#aaa]">
+                          {t("sidebar.newChat")}
+                        </span>
                       </SidebarMenuButton>
                     </TooltipTrigger>
                     <TooltipContent
@@ -174,7 +178,10 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
                         onClick={() => setIsSearchOpen((prev) => !prev)}
                       >
                         <Search />
-                        <span hidden={state === "collapsed"}>
+                        <span
+                          className="text-[#aaa]"
+                          hidden={state === "collapsed"}
+                        >
                           {t("sidebar.search")}
                         </span>
                       </SidebarMenuButton>
@@ -207,7 +214,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
                   isActive={location.pathname === "/image"}
                 >
                   <Image />
-                  <span>{t("sidebar.images")}</span>
+                  <span className="text-[#aaa]">{t("sidebar.images")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
@@ -222,7 +229,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
                   isActive={location.pathname === "/projects"}
                 >
                   <FaRegFolderOpen />
-                  <span>{t("sidebar.projects")}</span>
+                  <span className="text-[#aaa]">{t("sidebar.projects")}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -233,10 +240,11 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
             sidebarState === "collapsed" ? "hidden" : ""
           }`}
         >
-          <span>{t("sidebar.starred")}</span>
-          <ul className="mt-2">
+          <span className="text-[#aaa]">{t("sidebar.starred")}</span>
+          <ul className="mt-2 flex items-center gap-1 ">
+            <MdAttachFile />
             {starredProjects.map((p) => (
-              <li key={p.id} className="truncate">
+              <li key={p.id} className="truncate ">
                 {p.name}
               </li>
             ))}
@@ -246,7 +254,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen, sidebarState  }) => {
         <div
           className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${state === "collapsed" ? "hidden" : ""}`}
         >
-          <span>{t("sidebar.yourChats")}</span>
+          <span className="text-[#aaa]">{t("sidebar.yourChats")}</span>
         </div>
 
         <div className="flex-1 overflow-y-scroll scrollbar-hide mt-3 text-sm space-y-3 ml-2 mr-2">

@@ -35,7 +35,7 @@ const ProjectFolders = ({ projects = [], onDelete, onToggleStar, onEdit }) => {
       {projects.map((project) => (
         <div
           key={project.id}
-          className="group relative border border-[#4A3A6B] w-[271px] h-30 rounded-2xl shadow-lg transition-all p-4 flex flex-col justify-between cursor-pointer"
+          className="group relative border border-[#4A3A6B] w-67.5 h-30 rounded-lg shadow-lg transition-all p-4 flex flex-col justify-between cursor-pointer"
           style={{ boxShadow: "0 2px 10px 0 rgba(74, 58, 107, 0.45)" }}
           onClick={() => navigate("/newProjectChat")}
         >
