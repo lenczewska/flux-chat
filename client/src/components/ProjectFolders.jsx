@@ -82,15 +82,15 @@ const ProjectFolders = ({ projects = [], onDelete, onToggleStar, onEdit }) => {
                     ? "border-gray-800 bg-black text-white hover:bg-gray-950"
                     : "border-gray-200 bg-white text-black hover:bg-gray-100"
                 }`}
-                onClick={() => {
-                  setActiveMenu(null);
-                  onToggleStar?.(project.id);
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleStar?.(project.id); 
                 }}
               >
                 {project.starred ? (
-                  <FaStar className="w-5 text-yellow-400" />
+                  <FaStar className="w-5 text-[#8e6ad4]" />
                 ) : (
-                  <FaRegStar className="w-5 text-gray-400" />
+                  <FaRegStar className="w-5 text-gray-400"  /> 
                 )}
                 Star
               </button>

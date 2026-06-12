@@ -228,6 +228,23 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
         </SidebarGroup>
 
         <div
+          className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
+            state === "collapsed" ? "hidden" : ""
+          }`}
+        >
+          <span>{t("sidebar.starred")}</span>
+          <ul className="mt-2">
+            {projects
+              .filter((p) => p.starred)
+              .map((p) => (
+                <li key={p.id} className="truncate">
+                  {p.name}
+                </li>
+              ))}
+          </ul>
+        </div>
+
+        <div
           className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${state === "collapsed" ? "hidden" : ""}`}
         >
           <span>{t("sidebar.yourChats")}</span>

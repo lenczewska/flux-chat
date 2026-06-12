@@ -1,20 +1,21 @@
+// Projects.jsx
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import ProjectFolder from "../components/ProjectFolders";
+import ProjectFolders from "../components/ProjectFolders";
 import Plus from "../components/ui/plus";
 import NewProjectModal from "../components/NewProjectModal";
 import { useAppContext } from "@/context/AppContext";
 import { CiSearch } from "react-icons/ci";
 
-const Projects = () => {
+const Projects = ({ sidebarState }) => {
   const { t } = useTranslation();
   const { theme } = useAppContext();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projects, setProjects] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // состояние для поиска
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const stored = localStorage.getItem("fluxProjects");
@@ -32,7 +33,7 @@ const Projects = () => {
   }, [projects]);
 
   const handleAddProject = (project) => {
-    setProjects((prev) => [...prev, project]);
+    setProjects((prev) => [...prev, { ...project, starred: false }]);
     navigate("/newProjectChat");
   };
 
@@ -40,15 +41,25 @@ const Projects = () => {
     setProjects((prev) => prev.filter((project) => project.id !== projectId));
   };
 
-  // фильтрация проектов по имени или описанию
+  const toggleStar = (projectId) => {
+    setProjects((prev) =>
+      prev.map((p) =>
+        p.id === projectId ? { ...p, starred: !p.starred } : p
+      )
+    );
+  };
+
   const filteredProjects = projects.filter(
     (project) =>
       project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.description?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const starredProjects = projects.filter((p) => p.starred);
+
   return (
     <div className="form pl-18 pr-18 pt-10">
+      {/* Поиск */}
       <div style={{ position: "relative" }}>
         <Input
           value={searchQuery}
@@ -69,6 +80,7 @@ const Projects = () => {
         />
       </div>
 
+      {/* Новый проект */}
       <div
         className="inline-flex items-center gap-1 pl-2 pr-2 rounded-[7px] mt-10 cursor-pointer"
         style={{
@@ -92,8 +104,28 @@ const Projects = () => {
         onAdd={handleAddProject}
       />
 
-      {/* передаём отфильтрованные проекты */}
-      <ProjectFolder projects={filteredProjects} onDelete={handleDeleteProject} />
+      {/* Список проектов */}
+      <ProjectFolders
+        projects={filteredProjects}
+        onDelete={handleDeleteProject}
+        onToggleStar={toggleStar}
+      />
+
+      {/* Блок Starred */}
+      <div
+        className={`ml-4 mr-4 text-sm text-gray-500 border-t pt-3 ${
+          sidebarState === "collapsed" ? "hidden" : ""
+        }`}
+      >
+        <span>{t("sidebar.starred")}</span>
+        <ul className="mt-2">
+          {starredProjects.map((p) => (
+            <li key={p.id} className="truncate">
+              {p.name}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
